@@ -1,7 +1,7 @@
 ﻿/*
 * Name: [YOUR NAME HERE]
 * South Hills Username: [YOUR SOUTH HILLS USERNAME HERE]
-* Link(s) Used: [INSERT LINK(S) HERE]
+* Link(s) Used: None :)
 */
 
 using System;
@@ -13,12 +13,18 @@ public class Source
 {
     public static void RemoveNumbers(List<Int32> list, int numberToRemove)
     {
+        List<Int32> newNumbers = new List<Int32>();
+
         foreach(int num in list)
         {
             if(num == numberToRemove)
             {
-                list.Remove(num);
+                continue;
             }
+            newNumbers.Add(num);
         }
+        
+        list.Clear();
+        list = newNumbers;
     }
 }

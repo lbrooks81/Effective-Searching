@@ -1,11 +1,19 @@
 ﻿/*
 * Name: [YOUR NAME HERE]
 * South Hills Username: [YOUR SOUTH HILLS USERNAME HERE]
-* Link(s) Used: [INSERT LINK(S) HERE]
+* Link(s) Used: 
+* 
+* https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast#typeof-operator
+* https://learn.microsoft.com/en-us/dotnet/api/system.reflection.constructorinfo.invoke?view=net-9.0
+* https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.createinstance?view=net-9.0#system-reflection-assembly-createinstance(system-string)
+* https://learn.microsoft.com/en-us/dotnet/api/system.type.fullname?view=net-9.0#system-type-fullname
+* https://stackoverflow.com/questions/11632816/can-i-count-properties-before-i-create-an-object-in-the-constructor
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -19,7 +27,7 @@ public class Source
     /// <returns>The Type of the Calculator class.</returns>
     public static Type GetCalculatorType()
     {
-        throw new NotImplementedException();
+        return typeof(Calculator);
     }
 
     /// <summary>
@@ -33,8 +41,7 @@ public class Source
     public static Calculator CreateCalculatorUsingReflection()
     {
         ConstructorInfo Constructor = typeof(Calculator).GetConstructor(Type.EmptyTypes)!;
-        Calculator calc = Constructor.Invoke(new Object[] { });
-        return calc;
+        return Constructor.Invoke(new Calculator[] { }) as Calculator;
     }
 
     /// <summary>
@@ -44,7 +51,7 @@ public class Source
     /// <exception cref="NullReferenceException">Thrown when the instance creation fails.</exception>
     public static Calculator CreateCalculatorUsingReflection2()
     {
-        Calculator calc = typeof(Calculator).Assembly.CreateInstance("what goes here") as Calculator;
+        Calculator calc = typeof(Calculator).Assembly.CreateInstance(typeof(Calculator).FullName) as Calculator;
 
         if(calc == null)
         {
@@ -60,8 +67,7 @@ public class Source
     /// <returns>The number of properties in the Calculator class.</returns>
     public static int GetNumberOfPropertiesInCalculator()
     {
-        //Do not return a hard-coded value.
-        throw new NotImplementedException();
+        return typeof(Calculator).GetProperties().Length;
     }
 
     /// <summary>
@@ -72,7 +78,8 @@ public class Source
     /// <returns>A tuple containing values of number, pi, tau, and e properties.</returns>
     public static (double number, double pi, double tau, double e) GetCalculatorPropertyValues(Object obj)
     {
-        return (default, default, default, default);
+        Calculator calc = obj as Calculator;
+        return (calc.Number, calc.Pi, calc.Tau, calc.E);
     }
 
     /// <summary>
