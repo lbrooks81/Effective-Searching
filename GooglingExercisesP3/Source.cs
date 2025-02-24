@@ -78,8 +78,15 @@ public class Source
     /// <returns>A tuple containing values of number, pi, tau, and e properties.</returns>
     public static (double number, double pi, double tau, double e) GetCalculatorPropertyValues(Object obj)
     {
-        Calculator calc = obj as Calculator;
-        return (calc.Number, calc.Pi, calc.Tau, calc.E);
+        if (obj.GetType() == typeof(Calculator))
+        {
+            Calculator calc = obj as Calculator;
+            return (calc.Number, calc.Pi, calc.Tau, calc.E);
+        }
+        else
+        {
+            return (0, 0, 0, 0);
+        }
     }
 
     /// <summary>
@@ -88,6 +95,6 @@ public class Source
     /// <returns>The line number of the return statement.</returns>
     public static int GetLineNumber()
     {
-        return default;//Return the line number
+        return default; //Return the line number
     }
 }
