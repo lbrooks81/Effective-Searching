@@ -8,6 +8,7 @@
 * https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assembly.createinstance?view=net-9.0#system-reflection-assembly-createinstance(system-string)
 * https://learn.microsoft.com/en-us/dotnet/api/system.type.fullname?view=net-9.0#system-type-fullname
 * https://stackoverflow.com/questions/11632816/can-i-count-properties-before-i-create-an-object-in-the-constructor
+* https://stackoverflow.com/questions/12556767/how-do-i-get-the-current-line-number
 */
 
 using System;
@@ -16,6 +17,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace GooglingExercisesPt3;
 
@@ -71,11 +73,14 @@ public class Source
     }
 
     /// <summary>
-    /// Retrieves the values of specific properties from a Calculator object.
-    /// Assumes the object is an instance of the Calculator class.
+    /// Attempts to retrieve specific property values from an object.
+    /// If the object is an instance of Calculator, it extracts the values of
+    /// 'number', 'pi', 'tau', and 'e' properties. If the object is not a Calculator,
+    /// it should return default values.
     /// </summary>
-    /// <param name="obj">An instance of the Calculator class.</param>
-    /// <returns>A tuple containing values of number, pi, tau, and e properties.</returns>
+    /// <param name="obj">An instance of any object, expected to be Calculator.</param>
+    /// <returns>A tuple containing values of number, pi, tau, and e properties, if applicable.</returns>
+    /// 
     public static (double number, double pi, double tau, double e) GetCalculatorPropertyValues(Object obj)
     {
         if (obj.GetType() == typeof(Calculator))
@@ -93,8 +98,8 @@ public class Source
     /// Determines the line number of the return statement in this method.
     /// </summary>
     /// <returns>The line number of the return statement.</returns>
-    public static int GetLineNumber()
+    public static int GetLineNumber([CallerLineNumber] int lineNumber = 0)
     {
-        return default; //Return the line number
+        return lineNumber; //Return the line number
     }
 }
