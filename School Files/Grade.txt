@@ -1,0 +1,4 @@
+17/18
+
+(-1) GetLineNumber() in part 3 is returning the wrong number.
+ It is returning the line number of the calling instruction, but not the line number of the return statement in the GetLineNumber() method.
